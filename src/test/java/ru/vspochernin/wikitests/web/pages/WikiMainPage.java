@@ -1,4 +1,4 @@
-package ru.vspochernin.wikitests.web.page;
+package ru.vspochernin.wikitests.web.pages;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;

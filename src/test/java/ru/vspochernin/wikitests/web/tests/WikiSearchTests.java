@@ -3,8 +3,8 @@ package ru.vspochernin.wikitests.web.tests;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import ru.vspochernin.wikitests.core.WebBaseTest;
-import ru.vspochernin.wikitests.web.page.ArticlePage;
-import ru.vspochernin.wikitests.web.page.WikiMainPage;
+import ru.vspochernin.wikitests.web.pages.ArticlePage;
+import ru.vspochernin.wikitests.web.pages.WikiMainPage;
 
 public class WikiSearchTests extends WebBaseTest {
 
