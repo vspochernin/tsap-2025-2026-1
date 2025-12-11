@@ -1,5 +1,6 @@
 package ru.vspochernin.wikitests.web.tests;
 
+import org.testng.annotations.DataProvider;
 import ru.vspochernin.wikitests.core.WebBaseTest;
 import ru.vspochernin.wikitests.web.pages.WikiArticlePage;
 import ru.vspochernin.wikitests.web.pages.WikiSearchResultsPage;
@@ -14,33 +15,53 @@ import java.time.Duration;
 
 public class WikiWebTests extends WebBaseTest {
 
-    private WebDriverWait webDriverWait() {
+    public WebDriverWait webDriverWait() {
         return new WebDriverWait(driver, Duration.ofSeconds(10));
     }
 
+    // Дата провайдер для теста 1.
+    @DataProvider(name = "exactSearchQueries")
+    public Object[][] exactSearchQueries() {
+        return new Object[][]{
+                {"Selenium"},
+                {"Веб"},
+                {"Тест"}
+        };
+    }
+
+    // Дата провайдер для теста 2.
+    @DataProvider(name = "generalSearchQueries")
+    private Object[][] generalSearchQueries() {
+        return new Object[][]{
+                {"selenium webdriver"},
+                {"web testing tools"},
+                {"тестирование сайтов"}
+        };
+    }
+
     // Тест 1: поиск статьи по точному названию (на RU википедии).
-    @Test
-    public void search_exactArticle_opensCorrectPage() {
+    @Test(dataProvider = "exactSearchQueries")
+    public void search_exactArticle_opensCorrectPage(String query) {
         // Открываем вики.
         WikiMainPage mainPage = new WikiMainPage(driver).open();
         // Ищем статью.
-        mainPage.search("Selenium");
+        mainPage.search(query);
 
         // Убеждаемся, что статья открылась (заголовок появился).
         webDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("firstHeading")));
 
         // Проверяем соответствие заголовка.
         WikiArticlePage wikiArticlePage = new WikiArticlePage(driver);
-        Assert.assertEquals(wikiArticlePage.getTitle(), "Selenium");
+        Assert.assertEquals(wikiArticlePage.getTitle(), query);
     }
 
     // Тест 2: получение списка результатов по неточному запросу.
-    @Test
-    public void search_generalQuery_showsResultsList() {
+    @Test(dataProvider = "generalSearchQueries")
+    public void search_generalQuery_showsResultsList(String query) {
         // Открываем вики.
         WikiMainPage mainPage = new WikiMainPage(driver).open();
         // Делаем неточный запрос.
-        mainPage.search("web testing tools");
+        mainPage.search(query);
 
         WikiSearchResultsPage resultsPage = new WikiSearchResultsPage(driver);
         // Ждём, пока появится хотя бы один результат.
