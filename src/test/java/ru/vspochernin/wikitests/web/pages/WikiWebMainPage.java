@@ -5,7 +5,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 // Главная страница RU википедии.
-public class WikiMainPage {
+public class WikiWebMainPage {
 
     private static final String WIKI_MAIN_PAGE_URL = "https://ru.wikipedia.org/";
     private final WebDriver driver;
@@ -17,12 +17,12 @@ public class WikiMainPage {
     // Ссылка "Случайная статья" в левом меню навигации
     private final By randomArticleLink = By.cssSelector("#n-randompage a");
 
-    public WikiMainPage(WebDriver driver) {
+    public WikiWebMainPage(WebDriver driver) {
         this.driver = driver;
     }
 
     // Открыть RU википедию.
-    public WikiMainPage open() {
+    public WikiWebMainPage open() {
         driver.get(WIKI_MAIN_PAGE_URL);
         return this;
     }

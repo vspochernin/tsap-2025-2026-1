@@ -1,10 +1,9 @@
 package ru.vspochernin.wikitests.web.tests;
 
 import org.testng.annotations.DataProvider;
-import ru.vspochernin.wikitests.core.WebBaseTest;
-import ru.vspochernin.wikitests.web.pages.WikiArticlePage;
-import ru.vspochernin.wikitests.web.pages.WikiSearchResultsPage;
-import ru.vspochernin.wikitests.web.pages.WikiMainPage;
+import ru.vspochernin.wikitests.web.pages.WikiWebArticlePage;
+import ru.vspochernin.wikitests.web.pages.WikiWebSearchResultsPage;
+import ru.vspochernin.wikitests.web.pages.WikiWebMainPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -13,7 +12,7 @@ import org.testng.annotations.Test;
 
 import java.time.Duration;
 
-public class WikiWebTests extends WebBaseTest {
+public class WikiWebTests extends WikiWebBaseTest {
 
     public WebDriverWait webDriverWait() {
         return new WebDriverWait(driver, Duration.ofSeconds(10));
@@ -43,7 +42,7 @@ public class WikiWebTests extends WebBaseTest {
     @Test(dataProvider = "exactSearchQueries")
     public void search_exactArticle_opensCorrectPage(String query) {
         // Открываем вики.
-        WikiMainPage mainPage = new WikiMainPage(driver).open();
+        WikiWebMainPage mainPage = new WikiWebMainPage(driver).open();
         // Ищем статью.
         mainPage.search(query);
 
@@ -51,19 +50,19 @@ public class WikiWebTests extends WebBaseTest {
         webDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("firstHeading")));
 
         // Проверяем соответствие заголовка.
-        WikiArticlePage wikiArticlePage = new WikiArticlePage(driver);
-        Assert.assertEquals(wikiArticlePage.getTitle(), query);
+        WikiWebArticlePage wikiWebArticlePage = new WikiWebArticlePage(driver);
+        Assert.assertEquals(wikiWebArticlePage.getTitle(), query);
     }
 
     // Тест 2: получение списка результатов по неточному запросу.
     @Test(dataProvider = "generalSearchQueries")
     public void search_generalQuery_showsResultsList(String query) {
         // Открываем вики.
-        WikiMainPage mainPage = new WikiMainPage(driver).open();
+        WikiWebMainPage mainPage = new WikiWebMainPage(driver).open();
         // Делаем неточный запрос.
         mainPage.search(query);
 
-        WikiSearchResultsPage resultsPage = new WikiSearchResultsPage(driver);
+        WikiWebSearchResultsPage resultsPage = new WikiWebSearchResultsPage(driver);
         // Ждём, пока появится хотя бы один результат.
         webDriverWait().until(d -> resultsPage.getNumberOfResults() > 0);
 
@@ -78,7 +77,7 @@ public class WikiWebTests extends WebBaseTest {
     @Test
     public void randomArticle_fromMainPage_opensRandomArticle() {
         // Открываем вики.
-        WikiMainPage mainPage = new WikiMainPage(driver).open();
+        WikiWebMainPage mainPage = new WikiWebMainPage(driver).open();
         String mainPageUrl = driver.getCurrentUrl();
         // Открываем случайную статью.
         mainPage.openRandomArticle();
@@ -86,8 +85,8 @@ public class WikiWebTests extends WebBaseTest {
         // Ждём, пока URL изменится (ушли с главной страницы).
         webDriverWait().until(ExpectedConditions.not(ExpectedConditions.urlToBe(mainPageUrl)));
 
-        WikiArticlePage wikiArticlePage = new WikiArticlePage(driver);
-        String title = wikiArticlePage.getTitle();
+        WikiWebArticlePage wikiWebArticlePage = new WikiWebArticlePage(driver);
+        String title = wikiWebArticlePage.getTitle();
 
         // Проверяем, что урл изменился.
         Assert.assertNotEquals(driver.getCurrentUrl(), mainPageUrl);
@@ -100,18 +99,18 @@ public class WikiWebTests extends WebBaseTest {
     @Test
     public void switchLanguage_fromRussianToEnglish_changesLangAndTitle() {
         // Открываем конкретную статью на русском.
-        WikiArticlePage wikiArticlePage = new WikiArticlePage(driver);
-        wikiArticlePage.openSeleniumArticle();
+        WikiWebArticlePage wikiWebArticlePage = new WikiWebArticlePage(driver);
+        wikiWebArticlePage.openSeleniumArticle();
         // Убеждаемся, что статья открылась (заголовок появился).
         webDriverWait().until(ExpectedConditions.visibilityOfElementLocated(By.id("firstHeading")));
 
-        String langBefore = wikiArticlePage.getHtmlLang();
+        String langBefore = wikiWebArticlePage.getHtmlLang();
         // Переключаем на английскую версию
-        wikiArticlePage.switchToEnglish();
+        wikiWebArticlePage.switchToEnglish();
         // Ждём смены языка.
-        webDriverWait().until(d -> wikiArticlePage.getHtmlLang().startsWith("en"));
+        webDriverWait().until(d -> wikiWebArticlePage.getHtmlLang().startsWith("en"));
 
-        String langAfter = wikiArticlePage.getHtmlLang();
+        String langAfter = wikiWebArticlePage.getHtmlLang();
         String urlAfter = driver.getCurrentUrl();
 
         // Проверяем, что язык до переключения - русский.

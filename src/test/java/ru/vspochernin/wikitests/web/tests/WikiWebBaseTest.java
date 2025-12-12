@@ -1,4 +1,4 @@
-package ru.vspochernin.wikitests.core;
+package ru.vspochernin.wikitests.web.tests;
 
 import java.time.Duration;
 
@@ -9,7 +9,8 @@ import org.openqa.selenium.chrome.ChromeOptions;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 
-public class WebBaseTest {
+// Базовый класс для тестов веб-сайта.
+public abstract class WikiWebBaseTest {
 
     protected WebDriver driver;
 
@@ -24,7 +25,7 @@ public class WebBaseTest {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
     }
 
-    @AfterClass
+    @AfterClass(alwaysRun = true)
     public void tearDownWebDriver() {
         if (driver != null) {
             driver.quit();

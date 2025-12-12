@@ -7,7 +7,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 
 // Страница статьи.
-public class WikiArticlePage {
+public class WikiWebArticlePage {
 
     private static final String SELENIUM_RU_ARTICLE = "https://ru.wikipedia.org/wiki/Selenium";
 
@@ -21,7 +21,7 @@ public class WikiArticlePage {
     // Выбор английского языка.
     private final By englishLangLink = By.cssSelector("a[lang='en']");
 
-    public WikiArticlePage(WebDriver driver) {
+    public WikiWebArticlePage(WebDriver driver) {
         this.driver = driver;
         this.wait = new WebDriverWait(driver, Duration.ofSeconds(3));
     }

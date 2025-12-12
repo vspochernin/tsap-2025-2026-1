@@ -4,14 +4,14 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 // Страница с результатами поиска.
-public class WikiSearchResultsPage {
+public class WikiWebSearchResultsPage {
 
     private final WebDriver driver;
 
     // Результаты поиска (список).
     private final By resultItems = By.cssSelector("ul.mw-search-results > li");
 
-    public WikiSearchResultsPage(WebDriver driver) {
+    public WikiWebSearchResultsPage(WebDriver driver) {
         this.driver = driver;
     }
 
