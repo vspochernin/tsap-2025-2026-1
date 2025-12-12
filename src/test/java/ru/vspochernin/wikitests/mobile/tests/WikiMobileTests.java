@@ -61,7 +61,7 @@ public class WikiMobileTests extends WikiMobileBaseTest {
 
     // Тест 3: корректный заголовок у первой открытой статьи при поиске.
     @Test(dataProvider = "searchExactQueries")
-    public void search_openFirstResult_articleTitleIsAppium(String query) {
+    public void search_openFirstResult_articleTitleMatchesQuery(String query) {
         // Открываем главный экран.
         WikiMobileMainPage mainPage = new WikiMobileMainPage(driver);
         // Открываем строку поиска.
